@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Projects Site</title>
+    <style>
+        .containor {
+          margin-top: 5px;
+           padding: 0 475px;
+           position: fixed;
+            border: 2px solid rgb(21, 20, 20); /* Ensure the border is visible */
+            border-radius: 25px;
+            background-color: rgb(31, 31, 31);
+            text-align: center;
+            display: flex;
+            justify-content: center; /* Center align items horizontally */
+            align-items: center; /* Center align items vertically */
+            box-sizing: border-box;
+        }
+
+        .AMLogo-button {
+            border: none;
+            border-radius: 30px;
+            height: 70px;
+            width: 70px;
+            padding: 0;
+            overflow: hidden; 
+            display: flex;
+            align-items: center; /* Center align image vertically */
+            justify-content: center; /* Center align image horizontally */
+            margin: 0 20px;
+        }
+
+        .AMLogo-button img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover; /* Ensure image covers button */
+            display: block;
+            cursor: pointer;
+        }
+        .AMLogo-button:hover {
+          opacity: 0.8;
+        }
+        
+        body {
+            background-color: rgb(163, 157, 240);
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            position: relative; /* Ensure body is the reference point for absolute positioning */
+            min-height: 100vh;
+        }
+
+        .homepage, .projectpage {
+            padding: 10px 20px;
+            margin: 0 10px; /* Adjust margin to space buttons evenly */
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background-color: rgb(31, 31, 31);
+            color: #fff9f9;
+            transition: box-shadow 0.15s;
+            border-radius: 30px;
+        }
+
+        .projectpage {
+          background-color: #9d9a9a;
+            color: black;
+            box-shadow: 5px 5px 10px #f6c7f7;
+        }
+        .homepage:hover {
+            background-color: #9d9a9a;
+            color: black;
+            box-shadow: 5px 5px 10px #f6c7f7; 
+        }
+        .P{
+          position: absolute;
+          top: 160px; /* Distance from the top of the body */
+          left: 50px;
+          display: flex; /* Align child elements horizontally */
+          gap: 20px; /* Space between elements */
+        }
+        .Logo1 {
+          background-color: transparent;
+          height: 200px;
+          border-radius: 40px;   
+          border: 1px solid black;
+        }
+        .Defenition {
+          font-size: 20px;
+          font-weight: bold;
+          font-style: italic;
+          margin-left: 20px;
+          margin-right: 20px;
+          margin-top: 20px;
+          background-color: transparent;
+          border: none;
+          color: rgb(250, 242, 229);
+          cursor: pointer;
+        }
+        .Chess {
+          background-color: #2a7a05;
+          display: flex;
+           /* Distance from the left of the body */
+          border-radius: 20px;
+          border: 3px solid black;
+          border-radius: 40px;   
+          flex-direction: column;
+          align-items: center;
+          transition: opacity 0.15s;
+          cursor: pointer;
+        }
+        .Chess:hover {
+          opacity: 0.8;
+        }
+        .ProjectText {
+          position: absolute;
+          top: 60px; /* Distance from the top of the body */
+          left: 40px;
+          font-size: 40px;
+          font-weight: bolder;
+          color: black;
+          font-style: italic;
+        }
+        .Todo {
+          background-color: #6200ff;
+          display: flex;
+           /* Distance from the left of the body */
+          border-radius: 20px;
+          border: 3px solid black;
+          border-radius: 40px;   
+          flex-direction: column;
+          align-items: center;
+          transition: opacity 0.15s;
+          cursor: pointer;
+        }
+        .Todo:hover {
+          opacity: 0.8;
+        }
+        .RPS {
+          background-color: #cdfa04;
+          display: flex;
+           /* Distance from the left of the body */
+          border-radius: 20px;
+          border: 3px solid black;
+          border-radius: 40px;   
+          flex-direction: column;
+          align-items: center;
+          transition: opacity 0.15s;
+          cursor: pointer;
+        }
+        .RPS:hover {
+          opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="containor">
+        <a href="XX-projects.html">
+        <button class="projectpage">Projects</button>
+       </a>
+       <a href="XX-WebSiteProjects.html">
+        <button class="AMLogo-button">
+            <img src="images/AMLogo.jpg" alt="Logo">
+        </button>
+      </a>
+      <a href="XX-WebSiteProjects.html">
+        <button class="homepage">Home</button>
+      </a>
+    </div>
+    <p class="ProjectText">Projects : </p>
+    <div class="P">
+      <a href="Projects/XX-Chess1.html">
+    <div class="Chess">
+      <img src="images/Logo1.png" class="Logo1">
+      <button class="Defenition">Play Chess</button>
+    </div>
+  </a>
+    <a href="Projects/13-todo-Liste1.html">
+    <div class="Todo">
+      <img src="images/Logo2.jpg" class="Logo1">
+      <button class="Defenition">TodoList</button>
+    </div>
+  </a>
+  <a href="Projects/12-RockPaperScisor1.html">
+  <div class="RPS">
+    <img src="images/RPS.jpg" class="Logo1">
+    <button class="Defenition">RockPaperSicors</button>
+  </div>
+</a>
+
+  </div>
+    
+    <script>
+    </script>
+</body>
+</html>

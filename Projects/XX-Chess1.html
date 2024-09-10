@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chessboard</title>
+    <style>
+        @keyframes colorChange {
+    0% { background-color: #f0f0f0; }
+    25% { background-color: #ffcccc; }
+    50% { background-color: #ccffcc; }
+    75% { background-color: #ccccff; }
+    100% { background-color: #f0f0f0; }
+}
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    animation: colorChange 10s infinite;
+}
+@keyframes borderColorChange {
+    0% { border-color: #3498db; }
+    25% { border-color: #e74c3c; }
+    50% { border-color: #2ecc71; }
+    75% { border-color: #f39c12; }
+    100% { border-color: #3498db; }
+}
+
+table {
+    border-collapse: collapse;
+    border: 2px solid; /* Set a base border width */
+    animation: borderColorChange 10s infinite; /* Apply the animation */
+    margin: 20px;
+}
+
+td {
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #ddd; /* Default border */
+    transition: box-shadow 0.3s ease; /* Smooth transition for box-shadow changes */
+}
+
+td:hover {
+    background-color: rgba(255, 255, 0, 0.3);
+    transform: scale(1.05);
+}
+
+td img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.light {
+    background-color: #f9f9f9;
+}
+
+.dark {
+    background-color: #5d5d5d;
+}
+
+.light, .dark {
+    border-radius: 4px;
+}
+
+.vide {
+    cursor: initial;
+}
+
+.selected {
+    background-color: rgba(255, 255, 0, 0.6);
+    transform: scale(1.1);
+}
+
+.Rhighlight {
+    box-shadow: 0 0 0 4px rgb(221, 37, 17) inset; /* Thick red inner border */
+    transform: scale(1.1);
+}
+
+.Ghighlight {
+    box-shadow: 0 0 0 4px green inset; /* Thick green inner border */
+    transform: scale(1.1);
+}
+
+.turn {
+    margin-right: 20px;
+}
+
+    </style>
+</head>
+<p class="turn"></p>
+<body>
+    <script>  
+        let selectedCellR = null;
+        let selectedCellC = null;
+        let blackTurn = true;
+        const board = [
+            ['<img src="images1/Brock.png">', '<img src="images1/Bhorse.png">', '<img src="images1/bbishop.png">', '<img src="images1/bquenne.png">', '<img src="images1/bking.png">', '<img src="images1/bbishop.png">', '<img src="images1/Bhorse.png">', '<img src="images1/Brock.png">'],
+            ['<img src="images1/Bpawn.png">', '<img src="images1/Bpawn.png">', '<img src="images1/Bpawn.png">', '<img src="images1/Bpawn.png">', '<img src="images1/Bpawn.png">', '<img src="images1/Bpawn.png">', '<img src="images1/Bpawn.png">', '<img src="images1/Bpawn.png">'],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            ['<img src="images1/wpawn.png">', '<img src="images1/wpawn.png">', '<img src="images1/wpawn.png">', '<img src="images1/wpawn.png">', '<img src="images1/wpawn.png">', '<img src="images1/wpawn.png">', '<img src="images1/wpawn.png">', '<img src="images1/wpawn.png">'],
+            ['<img src="images1/wrock.png">', '<img src="images1/Whorse.png">', '<img src="images1/wbishop.png">', '<img src="images1/wquenne.png">', ' <img src="images1/Wking.png">', '<img src="images1/wbishop.png">', '<img src="images1/Whorse.png">', '<img src="images1/wrock.png">']
+        ];
+        function writeBoard() {
+            const table = document.createElement('table');
+            for (let i = 0; i < 8; i++) {
+                const row = document.createElement('tr');
+                for (let j = 0; j < 8; j++) {
+                    const cell = document.createElement('td');
+                    cell.innerHTML = board[i][j];
+                    if ((i + j) % 2 === 0) {
+                        cell.classList.add('light');
+                    } else {
+                        cell.classList.add('dark');
+                    }
+                    cell.dataset.row = i;
+                    cell.dataset.col = j;
+                    cell.addEventListener('click', handleCellClick);
+                    row.appendChild(cell);}
+                table.appendChild(row);
+            }
+            document.body.appendChild(table);
+            putClass();
+        }
+        writeBoard();
+
+ function Bmove(color, notcolor, oldc, oldr, row, col, cellN, cellO,name) {
+         const destinationCellContent = board[row][col];
+         if (isvalidmove(oldc,oldr,row,col,`${name}`,color,notcolor)==='Single'||isvalidmove(oldc,oldr,row,col,`${name}`,color,notcolor)==='Double') {
+         cellN.classList.remove('vide');cellO.classList.add('vide');
+         cellO.classList.remove(`${color}`);cellN.classList.add(`${color}`);
+         board[row][col] = board[oldr][oldc];board[oldr][oldc] = ' ';
+         blackTurn = !blackTurn;
+       } 
+     else  {
+         if (isvalidmove(oldc,oldr,row,col,`${name}`,color,notcolor)==='EAT'){
+         cellO.classList.add('vide');
+         cellO.classList.remove(`${color}`);cellN.classList.add(`${color}`);cellN.classList.remove(`${notcolor}`);
+         board[row][col] = board[oldr][oldc]; board[oldr][oldc] = ' ';
+         blackTurn = !blackTurn;
+         }
+         else {
+         blackTurn = blackTurn;
+       }
+      }
+     } 
+        function MovePieces(oldc, oldr, row, col) {
+            const cellN = document.querySelector(`td[data-row="${row}"][data-col="${col}"]`);
+            const cellO = document.querySelector(`td[data-row="${oldr}"][data-col="${oldc}"]`);
+            const bpawnImage = '<img src="images1/Bpawn.png">';
+            const wpawnImage = '<img src="images1/wpawn.png">';
+            const brockImage = '<img src="images1/Brock.png">';
+            const wrockimage = '<img src="images1/wrock.png">';
+            const whorseImage = '<img src="images1/Whorse.png">';
+            const bhorseImage = '<img src="images1/Bhorse.png">';
+            const bbishopImage = '<img src="images1/bbishop.png">';
+            const wbishopImage = '<img src="images1/wbishop.png">';
+            const wkingImage = '<img src="images1/Wking.png">';
+            const wquenneImage = '<img src="images1/wquenne.png">';
+            const bkingImage = '<img src="images1/bking.png">';
+            const bquenneImage = '<img src="images1/bquenne.png">';
+            if (blackTurn) {
+                //pawn
+                if (board[oldr][oldc] === bpawnImage) {
+                    Bmove('black','white',oldc, oldr, row, col,cellN,cellO,'<img src="images1/Bpawn.png">');
+                }
+                else {
+                if (board[oldr][oldc] === brockImage) {
+                    console.log('d5lna l rock');
+                Bmove('black','white',oldc, oldr, row, col,cellN,cellO,'<img src="images1/Brock.png">');
+                 }
+                 else if (board[oldr][oldc] === bhorseImage) {
+                Bmove('black','white',oldc, oldr, row, col,cellN,cellO,'<img src="images1/Bhorse.png">');
+                 }
+                 else if (board[oldr][oldc] === bkingImage) {
+                 Bmove('black','white',oldc, oldr, row, col,cellN,cellO,'<img src="images1/bking.png">');
+                 }
+                 else if (board[oldr][oldc] === bbishopImage) {
+                    console.log('problem fik');
+                Bmove('black','white',oldc, oldr, row, col,cellN,cellO,'<img src="images1/bbishop.png">');
+                 }
+                 else if (board[oldr][oldc] === bquenneImage) {
+                  console.log('tama da5lna');
+                  Bmove('black','white',oldc, oldr, row, col,cellN,cellO,'<img src="images1/bquenne.png">');
+                 }
+                }
+            } else {
+                if (board[oldr][oldc] === wpawnImage) {
+                    Bmove('white','black',oldc, oldr, row, col,cellN,cellO,'<img src="images1/wpawn.png">');
+                }
+                else if (board[oldr][oldc] === wrockimage) {
+                    Bmove('white','black',oldc, oldr, row, col,cellN,cellO,'<img src="images1/wrock.png">');
+                }
+                else if (board[oldr][oldc] === whorseImage) {
+                    Bmove('white','black',oldc, oldr, row, col,cellN,cellO,'<img src="images1/Whorse.png">');
+                }
+                else if (board[oldr][oldc] === wbishopImage) {
+                    Bmove('white','black',oldc, oldr, row, col,cellN,cellO,'<img src="images1/wbishop.png">');
+                 }
+                 else if (board[oldr][oldc] === wkingImage) {
+                    Bmove('white','black',oldc, oldr, row, col,cellN,cellO,' <img src="images1/Wking.png">');
+                 }
+                 else if (board[oldr][oldc] === wquenneImage) {
+                  console.log('d5lna');
+                  Bmove('white','black',oldc, oldr, row, col,cellN,cellO,'<img src="images1/wquenne.png">');
+                 }
+                
+               
+            }
+            
+        }
+
+        function handleCellClick(event) {
+    const cell = event.target.closest('td');
+    if (cell) {
+       
+        let row = parseInt(cell.dataset.row);
+        let col = parseInt(cell.dataset.col);
+        
+        if (selectedCellR === null && selectedCellC === null) {
+            if ((cell.classList.contains('black') && blackTurn === true) ||
+                (cell.classList.contains('white') && blackTurn === false)) {
+                selectedCellC = col;
+                selectedCellR = row;
+                cell.classList.add('selected');
+                highlightPossibleMoves(selectedCellC, selectedCellR);
+            }
+        } else {
+            if (selectedCellR !== null && selectedCellC !== null) {
+                MovePieces(selectedCellC, selectedCellR, row, col);
+                updateBoard();
+                writeTurn(); // Update turn display
+                selectedCellC = null;
+                selectedCellR = null;
+                document.querySelectorAll('td').forEach(cell => cell.classList.remove('selected'));
+                removeHighlighting();
+            }
+        }
+    }
+}
+function isvalidmove(oldc, oldr, row, col, piece, color, notcolor) {
+    const destinationCell = document.querySelector(`td[data-row="${row}"][data-col="${col}"]`);
+    if (row < 0 || row >= 8 || col < 0 || col >= 8) return 'Invalid';
+
+    switch (piece) {
+        case '<img src="images1/bking.png">':
+        case '<img src="images1/Wking.png">':
+            if (Math.abs(row - oldr) <= 1 && Math.abs(col - oldc) <= 1) {
+                if (destinationCell.innerHTML === ' ') {
+                    return 'Single';
+                } else if (destinationCell.classList.contains(notcolor)) {
+                    return 'EAT';
+                }
+            }
+            return 'Invalid';
+
+        case '<img src="images1/Bpawn.png">':
+        case '<img src="images1/wpawn.png">':
+            const direction = color === 'black' ? 1 : -1;
+            const initialRow = color === 'black' ? 1 : 6;
+
+            if (board[row][col] === ' ') {
+                if (col === oldc && row === oldr + direction) {
+                    return 'Single'; // Standard move
+                } else if (col === oldc && row === oldr + 2 * direction && oldr === initialRow) {
+                    return 'Double'; // Initial two-square move
+                }
+            } else if (Math.abs(col - oldc) === 1 && row === oldr + direction) {
+                if (destinationCell.classList.contains(`${notcolor}`)) {
+                    return 'EAT'; // Capture move
+                }
+            }
+            return 'Invalid';
+
+        case '<img src="images1/Brock.png">':
+        case '<img src="images1/wrock.png">':
+            if (oldc === col || oldr === row) {
+                let validity = true;
+                if (oldc === col) { // Vertical move
+                    const min = Math.min(oldr, row) + 1;
+                    const max = Math.max(oldr, row);
+                    for (let i = min; i < max; i++) {
+                        if (board[i][col] !== ' ') {
+                            validity = false;
+                            break;
+                        }
+                    }
+                } else if (oldr === row) { // Horizontal move
+                    const min = Math.min(oldc, col) + 1;
+                    const max = Math.max(oldc, col);
+                    for (let i = min; i < max; i++) {
+                        if (board[row][i] !== ' ') {
+                            validity = false;
+                            break;
+                        }
+                    }
+                }
+                if (validity) {
+                    if (destinationCell.classList.contains(color)) {
+                        return 'Invalid';
+                    } else if (destinationCell.classList.contains(notcolor)) {
+                        return 'EAT';
+                    } else {
+                        return 'Single';
+                    }
+                }
+            }
+            return 'Invalid';
+
+        case '<img src="images1/Bhorse.png">':
+        case '<img src="images1/Whorse.png">':
+            if ((Math.abs(row - oldr) === 2 && Math.abs(col - oldc) === 1) ||
+                (Math.abs(row - oldr) === 1 && Math.abs(col - oldc) === 2)) {
+                if (destinationCell.classList.contains(color)) {
+                    return 'Invalid';
+                } else if (destinationCell.classList.contains(notcolor)) {
+                    return 'EAT';
+                } else {
+                    return 'Single';
+                }
+            }
+            return 'Invalid';
+
+        case '<img src="images1/bbishop.png">':
+        case '<img src="images1/wbishop.png">':
+            if ((row - col === oldr - oldc) || (row + col === oldr + oldc)) {
+                let colStep = col > oldc ? 1 : -1;
+                let rowStep = row > oldr ? 1 : -1;
+                let i = oldr + rowStep;
+                let j = oldc + colStep;
+                if (i < 0 || i > 8 || j < 0 || j > 8) {
+                    return 'Invalid';
+                }
+                let validity = true;
+
+                while (i !== row && j !== col) {
+                    if (board[i][j] !== ' ') {
+                        validity = false;
+                        break;
+                    }
+                    i += rowStep;
+                    j += colStep;
+                }
+
+                if (validity) {
+                    if (destinationCell.classList.contains(color)) {
+                        return 'Invalid';
+                    } else if (destinationCell.classList.contains(notcolor)) {
+                        return 'EAT';
+                    } else {
+                        return 'Single';
+                    }
+                }
+            }
+            return 'Invalid';
+
+        case '<img src="images1/bquenne.png">':
+        case '<img src="images1/wquenne.png">':
+            // Handle vertical and horizontal moves (Rook-like)
+            if (oldc === col || oldr === row) {
+                let validity = true;
+                if (oldc === col) { // Vertical move
+                    const min = Math.min(oldr, row) + 1;
+                    const max = Math.max(oldr, row);
+                    for (let i = min; i < max; i++) {
+                        if (board[i][col] !== ' ') {
+                            validity = false;
+                            break;
+                        }
+                    }
+                } else if (oldr === row) { // Horizontal move
+                    const min = Math.min(oldc, col) + 1;
+                    const max = Math.max(oldc, col);
+                    for (let i = min; i < max; i++) {
+                        if (board[row][i] !== ' ') {
+                            validity = false;
+                            break;
+                        }
+                    }
+                }
+                if (validity) {
+                    if (destinationCell.classList.contains(color)) {
+                        return 'Invalid'; // Can't move to a cell occupied by a piece of the same color
+                    } else if (destinationCell.classList.contains(notcolor)) {
+                        return 'EAT'; // Can capture opponent's piece
+                    } else {
+                        return 'Single'; // Valid move to an empty cell
+                    }
+                }
+            }
+
+            // Handle diagonal moves (Bishop-like)
+            if (Math.abs(row - oldr) === Math.abs(col - oldc)) {
+                let colStep = col > oldc ? 1 : -1;
+                let rowStep = row > oldr ? 1 : -1;
+                let i = oldr + rowStep;
+                let j = oldc + colStep;
+                if (i < 0 || i > 7 || j < 0 || j > 7) {
+                    return 'Invalid';
+                }
+                let validity = true;
+
+                while (i !== row && j !== col) {
+                    if (board[i][j] !== ' ') {
+                        validity = false;
+                        break;
+                    }
+                    i += rowStep;
+                    j += colStep;
+                }
+
+                if (validity) {
+                    if (destinationCell.classList.contains(color)) {
+                        return 'Invalid'; // Can't move to a cell occupied by a piece of the same color
+                    } else if (destinationCell.classList.contains(notcolor)) {
+                        return 'EAT'; // Can capture opponent's piece
+                    } else {
+                        return 'Single'; // Valid move to an empty cell
+                    }
+                }
+            }
+            return 'Invalid';
+        
+        default:
+            return 'Invalid';
+    }
+}
+
+        function updateBoard() {
+            const cells = document.querySelectorAll('td');
+            cells.forEach(cell => {
+                const row = parseInt(cell.dataset.row);
+                const col = parseInt(cell.dataset.col);
+                cell.innerHTML = board[row][col];
+            });
+        }
+        function putClass() {
+            for (let i = 0; i < 2; i++) {
+                for (let j = 0; j < 8; j++) {
+                    document.querySelector(`td[data-row="${i}"][data-col="${j}"]`).classList.add('black');
+                }
+            }
+            for (let i = 6; i < 8; i++) {
+                for (let j = 0; j < 8; j++) {
+                    document.querySelector(`td[data-row="${i}"][data-col="${j}"]`).classList.add('white');
+                }
+            }
+            for (let i = 2; i < 6; i++) {
+                for (let j = 0; j < 8; j++) {
+                    document.querySelector(`td[data-row="${i}"][data-col="${j}"]`).classList.add('vide');
+                }
+            }
+        }
+        function writeTurn() {
+            if (blackTurn===true) {document.querySelector('.turn').innerHTML = 'black turn';}
+            else {document.querySelector('.turn').innerHTML = 'white turn';}}
+
+        function highlightPossibleMoves(oldc, oldr) {
+         const NowCell = document.querySelector(`td[data-row="${oldr}"][data-col="${oldc}"]`);
+         let color = '';let notcolor = '';
+         const piece = board[oldr][oldc];
+    if (NowCell.classList.contains('black')) {
+      color = 'black'; notcolor = 'white';
+    } else {notcolor = 'black' ; color = 'white' ;}
+    
+    removeHighlighting();
+           for (let i = 0;i < 8;i++) {
+            for (let j = 0;j < 8;j++) {
+            const cell =  document.querySelector(`td[data-row="${i}"][data-col="${j}"]`);
+            const moveType = isvalidmove(oldc, oldr, i, j, piece, color, notcolor);
+            if (moveType === 'Double' || moveType === 'Single') {
+                cell.classList.add('Ghighlight');
+            } else if (moveType === 'EAT') {
+                cell.classList.add('Rhighlight');
+            }
+            }
+        }
+    }
+function removeHighlighting() {
+    document.querySelectorAll('td.Ghighlight').forEach(cell => {
+        cell.classList.remove('Ghighlight'); 
+    });
+    document.querySelectorAll('td.Rhighlight').forEach(cell => {
+        cell.classList.remove('Rhighlight'); 
+    });
+}
+    </script>
+</body>
+</html>

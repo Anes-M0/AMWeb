@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Projects Site</title>
+    <style>
+        .containor {
+          margin-top: 5px;
+           padding: 0 475px;
+           position: fixed;
+            border: 2px solid rgb(21, 20, 20); /* Ensure the border is visible */
+            border-radius: 25px;
+            background-color: rgb(31, 31, 31);
+            text-align: center;
+            display: flex;
+            justify-content: center; /* Center align items horizontally */
+            align-items: center; /* Center align items vertically */
+            box-sizing: border-box;
+        }
+
+        .AMLogo-button {
+            border: none;
+            border-radius: 30px;
+            height: 70px;
+            width: 70px;
+            padding: 0;
+            overflow: hidden; 
+            display: flex; /* Ensure image fits within button */
+            align-items: center; /* Center align image vertically */
+            justify-content: center; /* Center align image horizontally */
+            margin: 0 20px;
+        }
+
+        .AMLogo-button img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover; /* Ensure image covers button */
+            display: block;
+            cursor: pointer;
+        }
+        .AMLogo-button:hover {
+          opacity: 0.8;
+        }
+        
+        body {
+            background-color: rgb(163, 157, 240);
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .homepage, .projectpage {
+            padding: 10px 20px;
+            margin: 0 10px; /* Adjust margin to space buttons evenly */
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background-color: rgb(31, 31, 31);
+            color: #fff9f9;
+            transition: box-shadow 0.15s;
+            border-radius: 30px;
+        }
+        .homepage {
+          background-color: #9d9a9a;
+            color: black;
+            box-shadow: 5px 5px 10px #f6c7f7;
+        }
+        .projectpage:hover {
+            background-color: #9d9a9a;
+            color: black;
+            box-shadow: 5px 5px 10px #f6c7f7; /* Optional: Add hover effect */
+        }
+        .Logo1 {
+          margin-top: 100px;
+          background-color: transparent;
+          height: 450px;
+          border-radius: 600px;
+        }
+        .p {
+          color: purple;
+          margin: 0;
+          padding: 0;
+          margin-left: 160px;
+          font-size: 50px;
+          font-weight: bolder;
+          font-style: oblique;
+          font-family: 'Times New Roman', Times, serif;
+        }
+        .containor1{
+        display: flex;
+        align-items: center;
+        }
+        .p1 {
+          font-family: 'Times New Roman', Times, serif;
+          font-weight: bold;
+          font-size: 30px;
+          margin-left: 180px;
+        }
+        .PurText{
+          color: rgb(88, 1, 169);
+        }
+    </style>
+</head>
+<body>
+    <div class="containor">
+        <a href="XX-projects.html">
+        <button class="projectpage">Projects</button>
+       </a>
+       <a href="XX-WebSiteProjects.html">
+        <button class="AMLogo-button">
+            <img src="images/AMLogo.jpg" alt="Logo">
+        </button>
+      </a>
+      <a href="XX-WebSiteProjects.html">
+        <button class="homepage">Home</button>
+      </a>
+    </div>
+    <div class="containor1">
+      <img src="images/PurpulBody2.jpg" Class="Logo1">
+      <p >
+       <span class="p">Welcome,</span><br>
+        <span class="p1">Here is <span class="PurText">Anes</span>, and this is My web site!<br></span>
+        <span class="p1">You can find my projects in <a href="XX-projects.html">projectes</a></span>
+      </p>
+    </div>
+    <script>
+    </script>
+</body>
+</html>

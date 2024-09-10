@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <title>Loops And Arrays</title>
+    <style>
+      body{
+        background-color: blueviolet;
+      }
+      .TextA {
+        font-size: large;
+        font-weight: bold;
+      }
+      .Todo-input {
+        padding: 10px 0px;
+        padding-right: 200px;
+        border-radius: 60px;
+      }
+      .Todo-button {
+        cursor: pointer;
+        border-radius: 60px;
+        background-color: rgb(23, 8, 154);
+        transition: box-shadow 0.15s;
+        font-size: 15px;
+        padding: 10px 30px;
+      }
+      .Todo-button:hover{
+        box-shadow: 5px 5px 10px beige;
+      }
+      .names {
+      margin: 0;
+      padding: 10px 60px;
+      text-align: left;
+      font-style: italic;
+      font-size: larger;
+      font-weight: 400;
+      border-color: black;
+      display: inline-block; /* Change to inline-block */
+      vertical-align: middle; /* Align with other inline elements */
+      }
+
+      .Checked-button {
+        background-color: white;
+        border-radius: 60px;
+        color: white;
+        margin: 5px 5px;
+        font-size: 20px;
+      }
+      .selected {
+        background-color: green;
+        color: white;
+      }
+      .remove-button {
+        color: rgb(23, 8, 154);
+        background-color: transparent;
+        border-radius: 60px;
+        font-size: 20px;
+        margin: 0 10px;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+        font-style: initial;
+      }
+      
+    </style> 
+  </head>
+  <body>
+    <p class="TextA">Todo List</p>
+    <input placeholder="Todo....." class="Todo-input" onkeydown="GettodoE(event);">
+    <button class="Todo-button" onclick="
+   Gettodo();
+    ">Add</button>
+    <p class="Todo-p"></p>
+    <div class="Todo-div"></div>
+    <script>
+     function Gettodo() { 
+      let x = document.querySelector('.Todo-input');
+      let y = document.querySelector('.Todo-div');
+      const tododiv = document.createElement('div');
+      const name = x.value;
+      const z = document.createElement('p');
+      z.classList.add('names');
+      z.innerHTML = name;
+
+      const Checked = document.createElement('button');
+      Checked.classList.add('Checked-button');
+      Checked.innerHTML = '✓';
+      Checked.onclick = function() {
+        if (Checked.classList.contains('selected')) {
+          Checked.classList.remove('selected');
+       }
+        else Checked.classList.add('selected');
+      }
+
+      const Delete = document.createElement('button');
+      Delete.classList.add('remove-button');
+      Delete.innerHTML = '(/)';
+      Delete.onclick = function() {
+        tododiv.remove();
+      }
+
+      tododiv.appendChild(Checked);
+      tododiv.appendChild(z);
+      tododiv.appendChild(Delete);
+
+      y.appendChild(tododiv);
+
+      x.value = '';
+     }
+     function GettodoE(event) {
+      if (event.key === 'Enter') {
+        Gettodo();
+      }
+     }
+
+    </script>
+ 
+  </body>
+</html>
